@@ -50,10 +50,14 @@ class BlurViewModel(application: Application) : ViewModel() {
         var continuation = workManager
             .beginWith(OneTimeWorkRequest.from(CleanupWorker::class.java))
 
-        val blurRequest = OneTimeWorkRequest.Builder(BlurWorker::class.java)
-            .setInputData(createInputDataForUri())
-            .build()
-        continuation = continuation.then(blurRequest)
+        for(i in 0 until blurLevel) {
+            val blurRequest = OneTimeWorkRequest.Builder(BlurWorker::class.java)
+
+            if (i == 0)
+                blurRequest.setInputData(createInputDataForUri())
+
+            continuation = continuation.then(blurRequest.build())
+        }
 
         val save = OneTimeWorkRequest.Builder(SaveImageToFileWorker::class.java).build()
         continuation = continuation.then(save)
