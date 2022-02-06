@@ -22,7 +22,8 @@ class BlurWorker (
         val appContext = applicationContext
         val resourceUri = inputData.getString(KEY_IMAGE_URI)
 
-        makeStatusNotification("Testing notification", appContext)
+        makeStatusNotification("Blurring Image", appContext)
+        sleep()
 
         return try {
 
